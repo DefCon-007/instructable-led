@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Privet Drive</title>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Athiti:300,400'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css'>
+<script
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.7.1/bodymovin.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css" /><!-- Color Picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+    <style type="text/css">
+@font-face {
+    font-family: 'hp'; /*a name to be used later*/
+    src: url('static/font/MagicSchoolOne.ttf'); /*URL to font*/
+}
+
+
+html, body {
+  font-family: 'hp', sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://i.ytimg.com/vi/h036iewRjx4/maxresdefault.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+    #potter-animation {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 50px;
+        z-index: 10;
+    }
+
+    ul { 
+        
+        color: #887023;
+        left: 50%;
+        font-family: 'hp';
+        list-style-type: none;
+  text-align: center;
+    }
+    li{
+font-size: 1000%;
+          cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  padding-right: 15px;
+    }
+
+    .box{
+        font-family: 'hp';
+    }
+    .form_input{
+      font-weight: bold;
+      padding-right:0px
+    }
+
+    </style>
+</head>
+
+<body>
+  
+<div style="position: absolute;z-index: 1000;overflow-y:scroll; height:100%;width:100%;">
+
+  <table align="center" style="padding-top: 10%;">
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>  <input type='text' class="pick" id="monitorTop" /> </td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>  </td>
+        <td>  <input type='text' class="pick" id="monitorLeft" /> </td>
+        <td></td>
+        <td>  <input type='text' class="pick" id="monitorRight" /></td>
+      </tr>
+
+      <tr>
+        <td>   </td>
+        <td></td>
+        <td>  <input type='text' class="pick" id="monitorBottom" /></td>
+        <td></td>
+      </tr>
+      <tr style="color: white;">
+        <td>Ligth Time</td>
+        <td > <input style="width: 40px" onkeydown="sendColors()" type='number'  id="timeOn" value ="0.05" /></td>
+        <td> Off Time </td>
+        <td> <input style="width: 40px" onkeydown="sendColors()" type='number' id="timeOff" value= "0.08" /> </td>
+      </tr>
+
+
+
+    </tbody>
+
+  </table>
+  <div align="center" style="padding-top: 2%;">
+<button onclick="sendColors();">Submit</button>
+</div>
+  <!-- <div class="box" id =  "monitorTop">
+      <input type='text' class="pick" id="monitorTop" />
+  </div> -->
+
+  <ul class = wand>
+    <li class="rndon">Randoms</li>
+    <li class="rndoff">Randnox</li>
+</ul>
+
+
+    </div>
+
+
+<div id="potter-animation"></div>
+    
+<!-- <script src="static/js/wand1.js"></script> -->
+<script>
+   function sendColors(color){
+    var color = $("#rgbLarge").spectrum('get');
+    var  data= {};
+    data["rgbLarge"] = color["_r"]+","+color["_g"]+","+color["_b"];
+
+    var color = $("#rgbSmall").spectrum('get');
+     data["rgbSmall"] =color["_r"]+","+color["_g"]+","+color["_b"];
+
+    var color = $("#monitorTop").spectrum('get');
+     data["rgbmonitorTop"] = color["_r"] +","+color["_g"]+","+color["_b"];
+
+    var color = $("#monitorBottom").spectrum('get');
+     data["rgbmonitorBottom"] = color["_r"]+","+color["_g"]+","+color["_b"];
+
+    var color = $("#monitorLeft").spectrum('get');
+     data["rgbmonitorLeft"] = color["_r"]+","+color["_g"]+","+color["_b"];
+
+    var color = $("#monitorRight").spectrum('get');
+     data["rgbmonitorRight"] = color["_r"]+","+color["_g"]+","+color["_b"];
+     data["timeOn"] =  $("#timeOn").val();
+      data["timeOff"] =  $("#timeOff").val();
+var base_url = window.location.origin;
+var url = base_url + "/setColors"
+
+   console.log(url)
+   var xhr = new XMLHttpRequest();
+xhr.open('POST', url, true);
+xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+xhr.send(JSON.stringify(data));
+    // data += "rgbSmallR="+color["_r"]+"&rgbSmallG="+color["_g"]+"&rgbSmallB="+color["_b"]
+
+    console.log(data)
+  }
+
+  function sendStripColor(color){
+    console.log("ishjfb ");
+    var color = $("#tableStrip").spectrum('get');
+    var  data= {};
+    if (color["_r"] == 255){
+      data["tableStrip"] = "RED"
+    }else if (color["_g"] == 255){
+      data["tableStrip"] = "GREEN"
+    }else if (color["_b"] == 255){
+      data["tableStrip"] = "BLUE"
+    }else {
+      data["tableStrip"] = "BLACK"
+    }
+
+    var color = $("#bedStrip").spectrum('get');
+    console.log(color);
+    if ( (color["_r"] == 255) && (color["_g"] == 255) && (color["_b"] == 255) ){
+      data["bedStrip"] = "WHITE"
+    }else{
+      data["bedStrip"] = "BLACK"
+    }
+    var base_url = window.location.origin;
+    var url = base_url + "/sendStripColor"
+
+   console.log(data)
+   var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(data));
+
+    // data += "rgbSmallR="+color["_r"]+"&rgbSmallG="+color["_g"]+"&rgbSmallB="+color["_b"]
+
+  }
+
+
+
+  $(".pick").spectrum({
+    preferredFormat: "rgb",
+    color: "blue",
+    showInput: true,
+    showPalette: true,
+    palette: [["red", "rgb(0,255,0)", "blue"]],
+    change : sendColors
+});
+
+$(".table-color-pick").spectrum({
+    preferredFormat: "rgb",
+    color: "blue",
+    showInput: false,
+    showPalette: true,
+    palette: [["red", "rgb(0,255,0)", "blue", "black"]],
+});
+
+$(".bed-color-pick").spectrum({
+    preferredFormat: "rgb",
+    color: "black",
+    showInput: false,
+    showPalette: true,
+    palette: [["white", "black"]],
+});
+  
+      
+  // $("#rgbLarge").on('change.spectrum', sendColors());
+  var base_url = window.location.origin;
+
+
+// $(#monitorTop).move(function(color) {
+//     console.log(color.toHexString()); // #ff0000
+//     console.log(123)
+// }
+   
+// );
+var spellAnimation = bodymovin.loadAnimation({
+    container: document.getElementById("potter-animation"),
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    path: "https://raw.githubusercontent.com/abrahamrkj/facebook-spell/master/data.json"
+});
+
+var base_url = window.location.origin;
+
+function make_async_http_request(relative_url){
+  var url = base_url + "/" + relative_url
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        var json_data = JSON.parse(xhr.responseText);
+        set_button_highlight(json_data);
+    }
+}
+  xhr.open('GET', url, true);
+  xhr.send();
+}
+
+function execute_click(e){
+  // Play the animation
+  relative_url = $(e).attr('data-relative-url')
+  make_async_http_request(relative_url)
+  spellAnimation.stop();
+  spellAnimation.play();
+}
+
+function set_button_highlight(json_data){
+        console.log(json_data);
+        for (var redirect_url in json_data){
+          if (redirect_url.includes("data_")){
+            continue;
+          }
+          var element = document.querySelectorAll(`[data-relative-url=${redirect_url}]`)[0];
+          if (json_data[redirect_url]){
+            element.setAttribute("style", "color: #ebcd6e;");
+          }else{
+            element.removeAttribute("style");
+          }
+        }
+}
+
+$(".rndon").click(function() {
+    var url = base_url + "/randomcoloron"
+    console.log(url)
+   var xhr = new XMLHttpRequest();
+xhr.open('GET', url, true);
+xhr.send();
+});
+
+
+$(".rndoff").click(function() {
+    var url = base_url + "/randomcoloroff"
+    console.log(url)
+   var xhr = new XMLHttpRequest();
+xhr.open('GET', url, true);
+xhr.send();
+});
+$(".wand").click(function() {
+    spellAnimation.stop();
+    spellAnimation.play();
+});
+
+</script>
+
+
+
+</body>
+
+</html>
